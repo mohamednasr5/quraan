@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الذكاء الاصطناعي والقرآن الكريم</title>
+    <script src="https://js.puter.com/v2/"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        h2 {
+            color: #764ba2;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 5px;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-quran {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+
+        .btn-quran:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(17, 153, 142, 0.4);
+        }
+
+        .btn-facebook {
+            background: #1877f2;
+            color: white;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-facebook:hover {
+            background: #145dbf;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(24, 119, 242, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .response-box {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            border-right: 5px solid #667eea;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            min-height: 50px;
+        }
+
+        .quran-box {
+            background: linear-gradient(135deg, #e0f7e9 0%, #c8f2d6 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+            border: 3px solid #11998e;
+            text-align: center;
+        }
+
+        .ayah-text {
+            font-size: 1.8em;
+            color: #1a5f3f;
+            margin: 20px 0;
+            line-height: 2.5;
+            font-weight: bold;
+            font-family: 'Traditional Arabic', 'Arial', sans-serif;
+        }
+
+        .ayah-info {
+            color: #11998e;
+            font-size: 1.2em;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        .loading {
+            text-align: center;
+            color: #667eea;
+            font-style: italic;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .error {
+            background: #ffe6e6;
+            color: #d8000c;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border-right: 5px solid #d8000c;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .btn {
+                width: 100%;
+                margin: 5px 0;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .ayah-text {
+                font-size: 1.4em;
+            }
+        }
+
+        .social-share {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>🤖 الذكاء الاصطناعي والقرآن الكريم 📖</h1>
+            <p class="subtitle">تطبيق يجمع بين قوة الذكاء الاصطناعي المجاني وآيات القرآن الكريم</p>
+        </div>
+
+        <!-- AI Section -->
+        <div class="card">
+            <h2>🤖 محادثة مع الذكاء الاصطناعي</h2>
+            <div class="input-group">
+                <label for="aiQuestion">اكتب سؤالك أو استفسارك:</label>
+                <textarea id="aiQuestion" placeholder="مثال: ما هي فوائد الرياضة؟">ما هي فوائد قراءة القرآن الكريم؟</textarea>
+            </div>
+            <button class="btn btn-primary" onclick="askAI()" id="aiBtn">
+                💬 اسأل الذكاء الاصطناعي
+            </button>
+            <div id="aiResponse" class="response-box" style="display:none;"></div>
+        </div>
+
+        <!-- Quran Section -->
+        <div class="card">
+            <h2>📖 آية قرآنية عشوائية</h2>
+            <p style="color: #666; margin-bottom: 15px;">
+                اضغط على الزر للحصول على آية عشوائية من القرآن الكريم
+            </p>
+            <button class="btn btn-quran" onclick="getRandomAyah()" id="quranBtn">
+                ✨ احضر آية قرآنية
+            </button>
+            <div id="quranBox" style="display:none;"></div>
+        </div>
+    </div>
+
+    <script>
+        // AI Function using Puter.js
+        async function askAI() {
+            const question = document.getElementById('aiQuestion').value.trim();
+            const responseBox = document.getElementById('aiResponse');
+            const btn = document.getElementById('aiBtn');
+
+            if (!question) {
+                alert('من فضلك اكتب سؤالاً أولاً');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = '⏳ جاري التفكير...';
+            responseBox.style.display = 'block';
+            responseBox.innerHTML = '<div class="loading">⏳ جاري الحصول على الإجابة...</div>';
+
+            try {
+                const response = await puter.ai.chat(question, {
+                    model: "gpt-5-nano"
+                });
+
+                responseBox.innerHTML = response;
+            } catch (error) {
+                responseBox.innerHTML = `<div class="error">❌ حدث خطأ: ${error.message}</div>`;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '💬 اسأل الذكاء الاصطناعي';
+            }
+        }
+
+        // Quran API Function
+        async function getRandomAyah() {
+            const quranBox = document.getElementById('quranBox');
+            const btn = document.getElementById('quranBtn');
+
+            btn.disabled = true;
+            btn.textContent = '⏳ جاري التحميل...';
+            quranBox.style.display = 'block';
+            quranBox.innerHTML = '<div class="loading">⏳ جاري جلب الآية الكريمة...</div>';
+
+            try {
+                // Generate random surah (1-114) and ayah number
+                const randomSurah = Math.floor(Math.random() * 114) + 1;
+                
+                // First, get the surah info to know how many ayahs it has
+                const surahResponse = await fetch(`https://api.alquran.cloud/v1/surah/${randomSurah}`);
+                const surahData = await surahResponse.json();
+                
+                if (surahData.code !== 200) {
+                    throw new Error('فشل في جلب بيانات السورة');
+                }
+
+                const totalAyahs = surahData.data.numberOfAyahs;
+                const randomAyah = Math.floor(Math.random() * totalAyahs) + 1;
+
+                // Get the specific ayah
+                const ayahResponse = await fetch(`https://api.alquran.cloud/v1/ayah/${randomSurah}:${randomAyah}`);
+                const ayahData = await ayahResponse.json();
+
+                if (ayahData.code !== 200) {
+                    throw new Error('فشل في جلب الآية');
+                }
+
+                const ayah = ayahData.data;
+                const shareText = `${ayah.text}\n\n📖 سورة ${ayah.surah.name} - آية ${ayah.numberInSurah}`;
+                const shareUrl = encodeURIComponent(window.location.href);
+                const shareTextEncoded = encodeURIComponent(shareText);
+
+                quranBox.innerHTML = `
+                    <div class="quran-box">
+                        <div style="font-size: 1.5em; color: #11998e; margin-bottom: 15px;">﷽</div>
+                        <div class="ayah-text">${ayah.text}</div>
+                        <div class="ayah-info">
+                            📖 سورة ${ayah.surah.name} (${ayah.surah.englishName})
+                        </div>
+                        <div class="ayah-info">
+                            🔢 رقم الآية: ${ayah.numberInSurah} من ${totalAyahs}
+                        </div>
+                        <div class="ayah-info">
+                            📍 رقم الآية في المصحف: ${ayah.number} من 6236
+                        </div>
+                        <div class="social-share">
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}&quote=${shareTextEncoded}" 
+                               target="_blank" 
+                               class="btn btn-facebook"
+                               rel="noopener noreferrer">
+                                📘 شارك على فيسبوك
+                            </a>
+                            <button class="btn btn-quran" onclick="getRandomAyah()">
+                                🔄 آية أخرى
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                quranBox.innerHTML = `<div class="error">❌ حدث خطأ في جلب الآية: ${error.message}</div>`;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '✨ احضر آية قرآنية';
+            }
+        }
+
+        // Allow Enter key to submit AI question
+        document.getElementById('aiQuestion').addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'Enter') {
+                askAI();
+            }
+        });
+    </script>
+</body>
+</html>
